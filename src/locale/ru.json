@@ -1,0 +1,24 @@
+{
+  "login": {
+    "title": "Добро пожаловать",
+    "button": "Войти через Yandex"
+  },
+  "vehicleList": {
+    "title": "Ваши автомобили",
+    "addButton": "+ Добавить автомобиль"
+  },
+  "addVehicle": {
+    "title": "Добавить автомобиль",
+    "placeholderPlate": "Номер (авто)",
+    "saveButton": "Сохранить"
+  },
+  "createMessage": {
+    "title": "Сообщение владельцу",
+    "placeholder": "Описание",
+    "sendButton": "Отправить"
+  },
+  "settings": {
+    "title": "Настройки",
+    "darkMode": "Темная тема"
+  }
+}

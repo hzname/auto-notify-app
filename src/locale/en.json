@@ -1,0 +1,24 @@
+{
+  "login": {
+    "title": "Welcome",
+    "button": "Login with Yandex"
+  },
+  "vehicleList": {
+    "title": "Your Vehicles",
+    "addButton": "+ Add Vehicle"
+  },
+  "addVehicle": {
+    "title": "Add Vehicle",
+    "placeholderPlate": "Plate (optional)",
+    "saveButton": "Save"
+  },
+  "createMessage": {
+    "title": "Create Message",
+    "placeholder": "Message",
+    "sendButton": "Send"
+  },
+  "settings": {
+    "title": "Settings",
+    "darkMode": "Dark Mode"
+  }
+}
