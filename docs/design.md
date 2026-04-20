@@ -1,29 +1,41 @@
 # Design & Naming Guidelines for **Auto‑Notify App**
 
-## 1. Project Naming
-- **Repository**: `auto-notify-app`
-- **App name (store)**: `AutoNotify`
-- **Package name (Android)**: `ru.hzname.autonotify`
-- **Bundle ID (iOS)**: `ru.hzname.autonotify`
-- **Internal modules** use **kebab‑case** for directories (`src/components`, `src/screens`) and **PascalCase** for React components (`AppLoginScreen`).
-- **Constants / enums** – `SCREAMING_SNAKE_CASE` (`API_BASE_URL`).
-- **CSS‑in‑JS / Styles** – `camelCase` (`buttonPrimary`).
+## 1. Naming Conventions
+- Repo & root folder: `auto-notify-app`
+- App name (store): `AutoNotify`
+- Android package: `ru.hzname.autonotify`
+- iOS bundle ID: `ru.hzname.autonotify`
+- Directories: kebab-case (`src/components`, `src/screens`)
+- React components: PascalCase, prefixed `App` (`AppLoginScreen`, `AppButtonPrimary`)
+- Constants / enums: SCREAMING_SNAKE_CASE (`API_BASE_URL`)
+- CSS‑in‑JS / styles: camelCase (`buttonPrimary`)
+- API URLs: kebab-case, `/v1/` prefix (`POST /v1/vehicles/:plate/transfer`)
+- DB tables: snake_case singular (`users`, `vehicles`)
+- i18n keys: dot notation (`login.title`, `vehicle.addSuccess`)
+- Push payload: camelCase JSON (`messageId`, `pushType`)
 
-## 2. UI Component Naming
-| UI Element | Component Filename | Exported Name |
-|------------|-------------------|--------------|
-| Primary button | `AppButtonPrimary.tsx` | `AppButtonPrimary` |
-| Text input | `AppInput.tsx` | `AppInput` |
-| Header / AppBar | `AppHeader.tsx` | `AppHeader` |
-| Vehicle card (list) | `VehicleCard.tsx` | `VehicleCard` |
-| Message card | `MessageCard.tsx` | `MessageCard` |
-| Modal for transfer request | `TransferRequestModal.tsx` | `TransferRequestModal` |
+## 2. UI Component Naming (examples)
+| Element          | File                     | Export                   |
+|------------------|--------------------------|--------------------------|
+| Primary button   | `AppButtonPrimary.tsx`   | `AppButtonPrimary`       |
+| Text input       | `AppInput.tsx`           | `AppInput`               |
+| Header / AppBar  | `AppHeader.tsx`          | `AppHeader`              |
+| Vehicle card     | `VehicleCard.tsx`        | `VehicleCard`            |
+| Message card     | `MessageCard.tsx`        | `MessageCard`            |
+| Transfer modal   | `TransferRequestModal.tsx`| `TransferRequestModal`   |
 
-All components live inside `src/components/` and expose a **single default export**.
+All components reside in `src/components/` and export a default.
 
 ## 3. Screen Naming (React‑Navigation)
-- Screens live in `src/screens/` and are prefixed with `App` (e.g. `AppLoginScreen`).
-- Navigation routes use **kebab‑case** (`login`, `vehicle-list`, `add-vehicle`, `messages`, `create-message`, `settings`).
+Screens in `src/screens/`, prefixed with `App`:
+- `AppLoginScreen`
+- `AppVehicleListScreen`
+- `AppAddVehicleScreen`
+- `AppCreateMessageScreen`
+- `AppMessageDetailScreen`
+- `AppSettingsScreen`
+
+Navigation route names use kebab‑case (`login`, `vehicle-list`, `add-vehicle`, `create-message`, `message-detail`, `settings`).
 
 ## 4. Color Palette (Yandex brand + neutral)
 ```json
@@ -37,56 +49,51 @@ All components live inside `src/components/` and expose a **single default expor
   "success": "#388E3C"
 }
 ```
-- Use the **primary** color for action buttons and accent elements.
-- Errors use **error** (red), successes use **success** (green).
-- All text defaults to `text` on light background; switch to `#FFFFFF` on dark mode.
+- Use **primary** for action buttons.
+- Errors → **error** (red), successes → **success** (green).
+- Light theme: `text` on `background`; Dark theme: white on `backgroundDark`.
 
 ## 5. Typography
-- **Font family**: `Roboto` (regular) / `Roboto Condensed` (headings).
-- **Scale**:
-  - Header title – 24 sp, weight **600**.
-  - Sub‑title – 18 sp, weight **500**.
-  - Body – 14 sp, weight **400**.
-  - Caption / hint – 12 sp, weight **300**.
+- Font family: `Roboto` (regular) / `Roboto Condensed` (headings).
+- Scale:
+  - Title – 24 sp, weight 600
+  - Subtitle – 18 sp, weight 500
+  - Body – 14 sp, weight 400
+  - Caption – 12 sp, weight 300
 
-## 6. Layout & Spacing
-| Element | Margin / Padding (dp) |
-|---------|-----------------------|
-| Screen container | 16 dp all sides |
-| Card inner padding | 12 dp |
-| Button height | 48 dp |
-| Icon size | 24 dp |
-| Divider thickness | 1 dp |
+## 6. Layout & Spacing (dp)
+| Element          | Size |
+|------------------|------|
+| Screen container | 16 dp all sides |
+| Card inner padding| 12 dp |
+| Button height    | 48 dp |
+| Icon size        | 24 dp |
+| Divider thickness| 1 dp |
 
-All measurements follow **Material Design** guidelines.
+All follow Material Design.
 
 ## 7. Internationalisation (i18n)
-- Store strings in `src/locale/<lang>.json` (`ru.json`, `en.json`).
-- Keys use **dot notation** reflecting hierarchy, e.g. `login.title`, `vehicle.addSuccess`.
-- Access via a thin wrapper `t(key)` that picks the current language from Redux store.
-- When adding new UI text, **always** add the entry to **both** `ru.json` and `en.json` (English can be placeholder).
+- Files: `src/locale/ru.json`, `src/locale/en.json`.
+- Keys: dot‑notation hierarchy (`login.title`, `vehicle.addSuccess`).
+- Access via helper `t(key)` reading current language from Redux store.
+- When adding UI text, update **both** language files (English can be placeholder ok).
 
-## 8. Interaction Flow Diagrams (textual description)
-1. **Login → Vehicle List**
-   - User opens the app → sees **LoginScreen** → selects OAuth provider → token stored → navigate to **VehicleListScreen**.
-2. **Add Vehicle**
-   - Tap **+** → **AddVehicleScreen** → camera captures license plate → OCR → user confirms → POST `/v1/vehicles` → success → return to list.
-3. **Send Notification**
-   - From **VehicleListScreen**, choose a vehicle → tap **Report Issue** → **CreateMessageScreen** → capture photo, write text → POST `/v1/messages` → push is sent → toast *Message sent*.
-4. **Receive Notification**
-   - Push arrives (Yandex Cloud Messaging) → app shows system notification → tapping opens **MessageDetailScreen** → user can reply.
-5. **Transfer Ownership**
-   - Another user attempts to add a plate that already belongs to someone else → backend creates a **transfer request** → owner receives a push with **TransferRequestModal** → chooses **Transfer**, **Share**, or **Reject** → backend updates `vehicles.owner_id` or `vehicle_shares` accordingly.
+## 8. Interaction Flow (textual)
+1. **Login → Vehicle List** – user opens app → `AppLoginScreen` → OAuth → token → navigate to `AppVehicleListScreen`.
+2. **Add Vehicle** – tap **+** → `AppAddVehicleScreen` → capture plate → OCR → confirm → `POST /v1/vehicles` → success → back to list.
+3. **Send Notification** – select vehicle → `AppCreateMessageScreen` → photo + text → `POST /v1/messages` → push → toast.
+4. **Receive Notification** – Yandex Cloud Messaging push → system notification → tap → `AppMessageDetailScreen`.
+5. **Transfer Ownership** – duplicate plate detection → backend creates transfer request → owner receives push with `TransferRequestModal` → actions: Transfer, Share, Reject → backend updates ownership/shares.
 
 ## 9. Asset Naming
-- Icons: `icon-<name>.svg` (e.g. `icon-car.svg`).
-- Images: placed in `assets/` with lower‑case, hyphenated names (`banner-welcome.png`).
-- Splash screen assets follow Android/iOS naming conventions (`splash-android.png`, `splash-ios.png`).
+- Icons: `icon-<name>.svg` (e.g., `icon-car.svg`).
+- Images: `assets/` lower‑case, hyphenated (`banner-welcome.png`).
+- Splash screens: `splash-android.png`, `splash-ios.png`.
 
-## 10. Git Workflow (for contributors)
-1. **Branch naming** – `feature/<kebab-case>`, `bugfix/<kebab-case>`, `hotfix/<kebab-case>`.
-2. **Commit messages** – `type(scope): short description` (e.g. `feat(auth): add Yandex OAuth`).
-3. **Pull request template** – ensure **Design Review** checkbox is ticked when UI changes are introduced.
+## 10. Git Workflow (contributors)
+1. Branch naming – `feature/<kebab-case>`, `bugfix/<kebab-case>`, `hotfix/<kebab-case>`.
+2. Commit messages – `type(scope): short description` (e.g., `feat(auth): add Yandex OAuth`).
+3. PR template – requires *Design Review* checkbox for any UI changes.
 
 ---
-*All designers and developers should keep this file up to date. Any deviation must be approved via a pull‑request review.*
+*Keep this file up‑to‑date. Any deviation requires PR review.*

@@ -5,35 +5,38 @@
 > A free iOS + Android app that lets anyone quickly inform a vehicle owner that their car is blocking a driveway, needs cleaning, or any other situation. The owner receives a push notification with a photo, license‑plate number, location and can respond directly.
 
 ## Features
-- OAuth login via Yandex, VK, SBER ID, ЕСИА
+- OAuth login via Yandex, VK, СБЕР ID, ЕСИА
 - Add multiple vehicles (photo of the license plate → OCR)
 - Send a notification with photo & short text
 - Receive push notifications (Yandex Cloud Messaging)
 - Family/shared access to a vehicle
 - Automatic moderation via black‑lists
-- Multilingual UI (RU + EN; easy to extend)
+- Multilingual UI (RU + EN; easy i18n extension)
 
-## Project Structure
+## Project Structure (high‑level)
 ```
-src/
- ├─ api/                # HTTP client wrappers
- ├─ components/         # Reusable UI components (Button, Card, …)
- ├─ screens/            # React‑Native screens
- ├─ store/              # Redux/Zustand slices
- ├─ locale/             # i18n JSON files
- └─ utils/              # OCR, push, validation helpers
+auto-notify-app/
+ ├─ app/                # Expo React‑Native scaffold
+ │   ├─ assets/
+ │   └─ ...
+ ├─ docs/               # Design & naming guidelines
+ ├─ .gitignore
+ └─ README.md
 ```
 
-## Getting Started
+## Getting Started (dev)
+
 ```bash
+# Clone (already done)
+cd auto-notify-app
 # Install dependencies
 npm install
-# Run the app (Expo)
+# Run with Expo
 npm start
 ```
 
 ## Contributing
-Please follow the naming conventions and UI guidelines described in `docs/design.md`.
+All changes must follow the naming conventions in `docs/design.md`. Open a PR, run the CI, and ensure lint passes.
 
 ---
-*This repository is part of a pet‑project built with React Native and Yandex services.*
+*This repository is a pet‑project built with React‑Native and Yandex services.*
