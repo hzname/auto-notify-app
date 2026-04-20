@@ -1,0 +1,13 @@
+# Exclude everything by default
+*
+.*
+# Allow essential project files
+!README.md
+!docs/
+!docs/**
+!app/
+!app/**
+# Unignore CI workflow files
+!/.github/
+!/.github/**
+!/.gitignore
